@@ -1,0 +1,21 @@
+export default [
+  { backgroundColor: 'red', borderColor: 'darkred' },
+  { backgroundColor: 'blue', borderColor: 'darkblue' },
+  { backgroundColor: 'green', borderColor: 'darkgreen' },
+  { backgroundColor: 'yellow', borderColor: 'darkyellow' },
+  { backgroundColor: 'orange', borderColor: 'darkorange' },
+  { backgroundColor: 'purple', borderColor: 'darkpurple' },
+  { backgroundColor: 'pink', borderColor: 'darkpink' },
+  { backgroundColor: 'cyan', borderColor: 'darkcyan' },
+  { backgroundColor: 'magenta', borderColor: 'darkmagenta' },
+  { backgroundColor: 'teal', borderColor: 'darkteal' },
+  { backgroundColor: 'brown', borderColor: 'darkbrown' },
+  { backgroundColor: 'gold', borderColor: 'darkgold' },
+  { backgroundColor: 'silver', borderColor: 'darksilver' },
+  { backgroundColor: 'indigo', borderColor: 'darkindigo' },
+  { backgroundColor: 'lime', borderColor: 'darklime' },
+  { backgroundColor: 'violet', borderColor: 'darkviolet' },
+  { backgroundColor: 'turquoise', borderColor: 'darkturquoise' },
+  { backgroundColor: 'gray', borderColor: 'darkgray' },
+  { backgroundColor: 'black', borderColor: 'darkgray' }
+];
