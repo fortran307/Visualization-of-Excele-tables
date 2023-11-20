@@ -7,7 +7,9 @@
     >
       <div class="backgroundEffect"></div>
       <div class="d-flex flex-column flex-fill content">
-        <p class="flex-grow-1 text-muted mt-3">{{ question.question }}</p>
+        <div class="flex-grow-1 mt-3">
+          <p class="text-muted fs-6">{{ question.question }}</p>
+        </div>
         <div
           class="d-flex align-items-center justify-content-between mt-3 pb-3"
         >
@@ -37,11 +39,16 @@ export default {
 <style scoped>
 p {
   margin: 0px;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 17px;
 }
 
 .card {
   width: 320px;
-  height: 210px;
+  height: 190px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   background: #fff;
   transition: all 0.5s ease;
