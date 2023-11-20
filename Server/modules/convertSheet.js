@@ -2,7 +2,6 @@ module.exports = {
   convertSheet: async function (worksheet) {
     return new Promise((resolve, reject) => {
       const data = []
-
       const convertDate = (str) => {
         // Создаем объект Date из строки
         const date = new Date(str);
@@ -17,6 +16,19 @@ module.exports = {
         return shortenedDate
       }
 
+      const convertPercentage = (value) => {
+        switch (typeof value) {
+          case 'string':
+            return parseFloat(value.trim().slice(0,-1))
+          case 'object':
+            if (value !== null) {
+              return value.result * 100
+            }
+          default:
+          return value * 100
+        }
+      }
+
       for (let i = 2; i <= worksheet.rowCount; i++) {
         const row = worksheet.getRow(i)
         const theme = row.getCell(1).value
@@ -24,11 +36,9 @@ module.exports = {
         for (let j = 4; j <= worksheet.columnCount; j++) {
           const question = worksheet.getCell(i, 2).value
           const answer = worksheet.getCell(i, 3).value
-          // Конвертируем дату в читабельный вид
           const date = convertDate(worksheet.getCell(1, j).value)
-          const percentage = row.getCell(j).value * 100
-          // Убираем пустые значения
-          if (percentage !== '' && percentage !== null) {
+          const percentage = convertPercentage(row.getCell(j).value)
+          if (percentage !== null && typeof worksheet.getCell(1, j).value === 'object') {
             data.push({ theme, question, answer, date, percentage })
           }
         }
