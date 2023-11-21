@@ -23,6 +23,8 @@ module.exports = {
           case 'object':
             if (value !== null) {
               return value.result * 100
+            } else {
+              return null
             }
           default:
           return value * 100
@@ -38,14 +40,13 @@ module.exports = {
           const answer = worksheet.getCell(i, 3).value
           const date = convertDate(worksheet.getCell(1, j).value)
           const percentage = convertPercentage(row.getCell(j).value)
+          // Отсекаем последние столбцы со служебной информацией
           if (percentage !== null && typeof worksheet.getCell(1, j).value === 'object') {
             data.push({ theme, question, answer, date, percentage })
           }
         }
       }
-
-      const json = JSON.stringify(data)
-      resolve(json)
+      resolve(data)
     })
   }
 }
