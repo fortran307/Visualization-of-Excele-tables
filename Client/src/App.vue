@@ -7,7 +7,7 @@
     <div v-else>
       <listThemes :data="data" @selectQuestion="selectQuestion" />
       <modalWindow :currentQuestion="selectedQuestion">
-        <chart v-if="chartData" :chart-data="chartData" />
+        <chart v-if="chartData" :chart-data="chartData"/>
       </modalWindow>
     </div>
   </div>
