@@ -1,18 +1,19 @@
 module.exports = {
-  transformArray: async function(newArr) {
+  transformArray: async function(newArr, worksheet) {
     return new Promise((resolve, reject) => {
 
       // Преобразуем входной массив в объект, сгруппировав его по темам, вопросам и ответам
       const setQuest = newArr.reduce((result, obj, index) => {
 
         // Извлекаем значения для темы, вопроса, ответа и процента из текущего объекта
-        const { theme, question, answer, date, percentage } = obj
+        const { cur_sheet, theme, question, answer, date, percentage } = obj
 
         // Если темы еще нет в результирующем объекте, создаем ее
         if (!result[theme]) {
           result[theme] = {
             id: index + 1,
             theme,
+            cur_sheet,
             questions: []
           }
         }
@@ -57,10 +58,7 @@ module.exports = {
         return result
       }, {})
 
-      // Преобразуем объект сгруппированных данных обратно в массив 
-      const finalResult = Object.values(setQuest)
-      // Разрешаем обещание с финальным результатом
-      resolve(finalResult)
+      resolve({sheet:worksheet.name, data:Object.values(setQuest)})
     })
   }
 }

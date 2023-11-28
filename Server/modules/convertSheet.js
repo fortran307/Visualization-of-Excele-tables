@@ -36,13 +36,14 @@ module.exports = {
         const theme = row.getCell(1).value
 
         for (let j = 4; j <= worksheet.columnCount; j++) {
+          const cur_sheet = worksheet.name
           const question = worksheet.getCell(i, 2).value
           const answer = worksheet.getCell(i, 3).value
           const date = convertDate(worksheet.getCell(1, j).value)
           const percentage = convertPercentage(row.getCell(j).value)
           // Отсекаем последние столбцы со служебной информацией
           if (percentage !== null && typeof worksheet.getCell(1, j).value === 'object') {
-            data.push({ theme, question, answer, date, percentage })
+            data.push({ cur_sheet, theme, question, answer, date, percentage })
           }
         }
       }
