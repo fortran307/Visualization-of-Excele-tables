@@ -1,5 +1,5 @@
 {
-  "name": "table_converter",
+  "name": "vizualization_table",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,9 +9,10 @@
   "dependencies": {
     "axios": "^1.6.0",
     "bootstrap": "^5.3.2",
-    "chart.js": "^2.7.3",
+    "chart.js": "^4.4.0",
+    "chartjs-plugin-autocolors": "^0.2.2",
     "vue": "^3.2.13",
-    "vue-chartjs": "^3.1.1"
+    "vue-chartjs": "^5.2.0"
   },
   "devDependencies": {
     "@vue/cli-service": "~5.0.0"
