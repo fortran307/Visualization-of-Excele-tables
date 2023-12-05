@@ -93,7 +93,6 @@ module.exports = {
         const nameSheet = worksheet.name
         const row = worksheet.getRow(i)
         const theme = row.getCell(1).value
-        // const question = row.getCell(2).value
         const question = convertQuestion(row.getCell(2).value)
         const answer = row.getCell(3).value
 
