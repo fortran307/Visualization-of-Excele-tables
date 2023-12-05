@@ -79,22 +79,23 @@ module.exports = {
           return value * 100
         }
       }
-
+    
+      console.log('ColumnCount ', worksheet.getRow(1))
       for (let i = 2; i <= worksheet.rowCount; i++) {
+        const nameSheet = worksheet.name
         const row = worksheet.getRow(i)
         const theme = row.getCell(1).value
+        const question = row.getCell(2).value
+        const answer = row.getCell(3).value
 
-        for (let j = 4; j <= worksheet.columnCount; j++) {
-          const cur_sheet = worksheet.name
-          const question = worksheet.getCell(i, 2).value
-          const answer = worksheet.getCell(i, 3).value
-          const date = convertDate(worksheet.getCell(1, j).value)
-          const percentage = convertPercentage(row.getCell(j).value)
-          // Отсекаем последние столбцы со служебной информацией
-          if (percentage !== null && typeof worksheet.getCell(1, j).value === 'object') {
-            arr.push({ cur_sheet, theme, question, answer, date, percentage })
-          }
-        }
+        // for (let j = 4; j <= worksheet.columnCount; j++) {
+        //   const date = convertDate(worksheet.getCell(1, j).value)
+        //   const percentage = convertPercentage(row.getCell(j).value)
+        //   // Отсекаем последние столбцы со служебной информацией
+        //   if (percentage !== null && typeof worksheet.getCell(1, j).value === 'object') {
+        //     arr.push({ nameSheet, theme, question, answer, date, percentage })
+        //   }
+        // }
       }
       resolve(arr)
     })
