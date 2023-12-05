@@ -51,9 +51,9 @@ module.exports = {
   convertSheet: async function (worksheet) {
     return new Promise((resolve, reject) => {
       const arr = []
-      const convertDate = (str) => {
+      const convertDate = (value) => {
         // Создаем объект Date из строки
-        const date = new Date(str);
+        const date = new Date(value);
 
         const year = date.getFullYear();
         const month = date.getMonth() + 1;
@@ -79,23 +79,32 @@ module.exports = {
           return value * 100
         }
       }
+
+      const convertQuestion = (value) => {
+        if (typeof value === 'string') {
+          return value
+        }
+        else {
+          return value.richText.map(obj => obj.text).join(" ");
+        }
+      }
     
-      console.log('ColumnCount ', worksheet.getRow(1))
       for (let i = 2; i <= worksheet.rowCount; i++) {
         const nameSheet = worksheet.name
         const row = worksheet.getRow(i)
         const theme = row.getCell(1).value
-        const question = row.getCell(2).value
+        // const question = row.getCell(2).value
+        const question = convertQuestion(row.getCell(2).value)
         const answer = row.getCell(3).value
 
-        // for (let j = 4; j <= worksheet.columnCount; j++) {
-        //   const date = convertDate(worksheet.getCell(1, j).value)
-        //   const percentage = convertPercentage(row.getCell(j).value)
-        //   // Отсекаем последние столбцы со служебной информацией
-        //   if (percentage !== null && typeof worksheet.getCell(1, j).value === 'object') {
-        //     arr.push({ nameSheet, theme, question, answer, date, percentage })
-        //   }
-        // }
+        for (let j = 4; j <= worksheet.columnCount; j++) {
+          const date = convertDate(worksheet.getCell(1, j).value)
+          const percentage = convertPercentage(row.getCell(j).value)
+          // Отсекаем последние столбцы со служебной информацией
+          if (percentage !== null && typeof worksheet.getCell(1, j).value === 'object') {
+            arr.push({ nameSheet, theme, question, answer, date, percentage })
+          }
+        }
       }
       resolve(arr)
     })

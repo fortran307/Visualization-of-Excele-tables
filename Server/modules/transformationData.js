@@ -1,9 +1,5 @@
 const ExcelJS = require('exceljs')
 const sheetToJSON = require('./sheetToJSON')
-// const fillEmpty = require('./fillEmpty')
-// const removeRows = require('./removeRows')
-// const convertSheet = require('./convertSheet')
-// const transformArray = require('./transformArray')
 
 module.exports = {
   transformationData: async function (file){
