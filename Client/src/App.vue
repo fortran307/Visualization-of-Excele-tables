@@ -2,18 +2,11 @@
   <div class="container-fluid bg-body mt-3">
     <div class="container mt-5" v-if="data.length === 0">
       <formInput @load-file="handleFileUpload" />
+      <spinner />
     </div>
     
     <div v-else>
-      <ul class="nav nav-tabs justify-content-end">
-        <li class="nav-item" v-for="sheet in data">
-          <button 
-            class="nav-link" 
-            :class="currentSheet === data.indexOf(sheet)? 'active' : ''"
-            @click.prevent="changeSheet(data.indexOf(sheet))"  
-          >{{ sheet.sheet }}</button>
-        </li>
-      </ul>
+      <listSheets :sheets="data" :currentSheet="currentSheet" @changeSheet="changeSheet"/>
       <listThemes :data="dataSheet" @selectQuestion="selectQuestion" />
       <modalWindow :currentQuestion="selectedQuestion">
         <chart v-if="chartData" :chart-data="chartData" />
@@ -28,10 +21,12 @@ import axios from "axios";
 import formInput from "./components/FormInput";
 import listThemes from "./components/ListThemes.vue";
 import modalWindow from "./components/ModalWindow.vue";
+import listSheets from "./components/ListSheets.vue";
 import chart from "./components/Chart.vue";
+import spinner from "./components/Spinner.vue"
 
 export default {
-  components: { formInput, modalWindow, chart, listThemes },
+  components: { formInput, modalWindow, chart, listThemes, listSheets, spinner },
   data() {
     return {
       data: new Array(),
@@ -66,9 +61,9 @@ export default {
             },
           }
         );
-        this.data = resFile.data;
+        this.data = resFile.data
       } catch (error) {
-        console.error(error.message);
+        console.error(error.message)
       }
     },
     selectQuestion(details) {
@@ -79,10 +74,10 @@ export default {
           return {
             label: element.answer,
             data: element.history.map((item) => item.percentage),
-          };
-        }),
-      };
-    },
-  },
-};
+          }
+        })
+      }
+    }
+  }
+}
 </script>

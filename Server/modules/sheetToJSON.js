@@ -1,3 +1,5 @@
+const convertData = require('./convertData')
+
 module.exports = {
   fillEmpty: async function (worksheet) {
     return new Promise((resolve, reject) => {
@@ -24,12 +26,13 @@ module.exports = {
   },
   removeRows: async function (worksheet) {
     return new Promise((resolve, reject) => {
-      let rowIndex = 2
+      // Задаем начальную строку с которой начинаем чистить лист
+      let rowIndex = 3
       let row = worksheet.getRow(rowIndex)
 
       do {
         let isEmpty = true
-
+        // Проверяем вся ли строка пустая для удаления служебных строк
         for (let i = 4; i <= row.cellCount; i++) {
           if (row.getCell(i).value !== null && row.getCell(i).value !== "") {
             isEmpty = false
@@ -51,56 +54,21 @@ module.exports = {
   convertSheet: async function (worksheet) {
     return new Promise((resolve, reject) => {
       const arr = []
-      const convertDate = (value) => {
-        // Создаем объект Date из строки
-        const date = new Date(value);
 
-        const year = date.getFullYear();
-        const month = date.getMonth() + 1;
-        const day = date.getDate();
-
-        // Собираем сокращенный вид даты
-        const shortenedDate = `${day < 10 ? '0' + day : day}.${month < 10 ? '0' + month : month}.${year}`;
-
-        return shortenedDate
-      }
-
-      const convertPercentage = (value) => {
-        switch (typeof value) {
-          case 'string':
-            return parseFloat(value.trim().slice(0,-1))
-          case 'object':
-            if (value !== null) {
-              return value.result * 100
-            } else {
-              return null
-            }
-          default:
-          return value * 100
-        }
-      }
-
-      const convertQuestion = (value) => {
-        if (typeof value === 'string') {
-          return value
-        }
-        else {
-          return value.richText.map(obj => obj.text).join(" ");
-        }
-      }
-    
-      for (let i = 2; i <= worksheet.rowCount; i++) {
+      // Начинаем смотреть массив данных с 3 строки
+      for (let i = 3; i <= worksheet.rowCount; i++) {
         const nameSheet = worksheet.name
         const row = worksheet.getRow(i)
         const theme = row.getCell(1).value
-        const question = convertQuestion(row.getCell(2).value)
+        const question = convertData.convertQuestion(row.getCell(2).value)
         const answer = row.getCell(3).value
 
         for (let j = 4; j <= worksheet.columnCount; j++) {
-          const date = convertDate(worksheet.getCell(1, j).value)
-          const percentage = convertPercentage(row.getCell(j).value)
+          const cellDate = worksheet.getCell(2, j).value
+          const date = convertData.convertDate(cellDate)
+          const percentage = convertData.convertPercentage(row.getCell(j).value)
           // Отсекаем последние столбцы со служебной информацией
-          if (percentage !== null && typeof worksheet.getCell(1, j).value === 'object') {
+          if (percentage !== null && typeof cellDate === 'object') {
             arr.push({ nameSheet, theme, question, answer, date, percentage })
           }
         }
