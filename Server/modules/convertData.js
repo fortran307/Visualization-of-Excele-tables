@@ -17,7 +17,8 @@ module.exports = {
       case 'string':
         return parseFloat(value.trim().slice(0,-1))
       case 'object':
-        if (value !== null) {
+        // проверяем на наличие результата вычислений формулы
+        if (value !== null && value.result !== undefined) {
           return value.result * 100
         } else {
           return null

@@ -1,10 +1,10 @@
 {
-  "name": "server",
-  "version": "1.0.0",
+  "name": "server_vizualization_table",
+  "version": "1.1.0",
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "server": "node app.js"
   },
   "author": "TimohinA",
   "license": "ISC",

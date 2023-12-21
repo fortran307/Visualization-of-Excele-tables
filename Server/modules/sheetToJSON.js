@@ -65,10 +65,11 @@ module.exports = {
 
         for (let j = 4; j <= worksheet.columnCount; j++) {
           const cellDate = worksheet.getCell(2, j).value
-          const date = convertData.convertDate(cellDate)
           const percentage = convertData.convertPercentage(row.getCell(j).value)
-          // Отсекаем последние столбцы со служебной информацией
-          if (percentage !== null && typeof cellDate === 'object') {
+          // Отсекаем последние столбцы со служебной информацией и пустые ячейки
+          // if (percentage !== null && typeof cellDate === 'object') {
+            if (percentage !== null && (cellDate instanceof Date)) {
+            const date = convertData.convertDate(cellDate)
             arr.push({ nameSheet, theme, question, answer, date, percentage })
           }
         }
