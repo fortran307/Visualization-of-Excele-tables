@@ -1,25 +1,41 @@
 <template>
-  <div>
-    <canvas ref="canvas"></canvas>
-  </div>
+  <Line :options="chartOptions" :data="chartData" />
+  <!-- <div style="width: 100%; overflow-x: auto;">
+    <div :style="{width: (chartData.labels.length * 40) + 'px', height: '650px'}">
+      <Line :options="chartOptions" :data="chartData" />
+    </div>
+  </div> -->
 </template>
 
 <script>
-import { defineComponent } from 'vue';
-import { Line, mixins } from 'vue-chartjs';
-const { reactiveProp } = mixins
+import { Line } from "vue-chartjs";
+import Chart from "chart.js/auto";
+import autocolors from 'chartjs-plugin-autocolors';
+Chart.register(autocolors);
 
-export default defineComponent({
-  extends: Line,
+export default {
+  name: "LineChart",
+  components: { Line },
   props: {
-    data: {
-      type: Array,
+    chartData: {
+      type: Object,
       required: true,
     },
+    chartOptions: {
+      type: Object,
+      default: () => {
+        return {
+          responsive: true,
+          plugins: {
+            colors: {
+              forceOverride: true,
+              enabled: false
+            },
+            autocolors
+          }
+        }
+      }
+    },
   },
-  mixins: [reactiveProp],
-  mounted() {
-    this.renderChart(this.chartData, this.options)
-  }
-})
+}
 </script>

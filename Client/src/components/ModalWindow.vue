@@ -10,7 +10,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="detailQuestionLabel">
-            {{ currentQuestion }}
+            {{ title }}
           </h5>
           <button
             type="button"
@@ -38,6 +38,6 @@
 
 <script>
   export default {
-    props:['currentQuestion']
+    props:['title']
   }
 </script>

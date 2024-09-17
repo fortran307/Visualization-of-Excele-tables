@@ -13,6 +13,7 @@ app.post('/loadTable', upload.single('table'), async (req, res) => {
     const fileBuffer = req.file.buffer
     transformationData.transformationData(fileBuffer)
       .then((json) => res.status(201).json(json))
+      .then(() => {fileBuffer.buffer = null})
       .catch((error) => console.error('Error:', error))
 })
 

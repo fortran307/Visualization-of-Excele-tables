@@ -1,27 +1,26 @@
 const ExcelJS = require('exceljs')
-const fillEmpty = require('./fillEmpty')
-const removeRows = require('./removeRows')
-const convertSheet = require('./convertSheet')
-const transformArray = require('./transformArray')
+const sheetToJSON = require('./sheetToJSON')
 
 module.exports = {
-  transformationData: async function (fileBuffer){
+  transformationData: async function (file){
     const workbook = new ExcelJS.Workbook()
-    await workbook.xlsx.load(fileBuffer)
+    await workbook.xlsx.load(file)
 
-    // СМОТРИ ПОКА ТОЛЬКО ПЕРВЫЙ ЛИСТ
-    const worksheet = workbook.worksheets[0]
-
-    // На перспективу - просмотр всех страниц
-    // workbook.eachSheet(function(worksheet, sheetId) {
-    //   код
-    // });
+    const sheets = workbook.worksheets
+    const resultArray = []
     
-    const sheetWithoutVoid = await fillEmpty.fillEmpty(worksheet)
-    const sheetWithoutExcess = await removeRows.removeRows(sheetWithoutVoid)
-    const arrayObjects = await convertSheet.convertSheet(sheetWithoutExcess)
-    const correctArrayObjects = await transformArray.transformArray(arrayObjects)
+    for (const sheet of sheets) {
+      // Заполняем во все пустые строки темы и вопрос
+      const sheetWithoutVoid = await sheetToJSON.fillEmpty(sheet)
+      // Удаляем служебные поля (тема и вопрос)
+      const sheetWithoutExcess = await sheetToJSON.removeRows(sheetWithoutVoid)
+      // Получаем из данных с листа массив JSON
+      const arrayObjects = await sheetToJSON.convertSheet(sheetWithoutExcess)
+      // Преобразуем в структурированный массив JSON
+      const correctArrayObjects = await sheetToJSON.transformArray(arrayObjects, sheet)
+      resultArray.push(correctArrayObjects)
+    }
     
-    return correctArrayObjects
+    return resultArray
   }
 }
